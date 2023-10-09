@@ -1,0 +1,47 @@
+-- Create a new database (if it doesn't exist)
+CREATE DATABASE IF NOT EXISTS DiabetesPredictionDB;
+
+-- Use the newly created database
+USE DiabetesPredictionDB;
+
+-- Create a table for patient information
+CREATE TABLE Patients (
+    PatientID INT AUTO_INCREMENT PRIMARY KEY,
+    FirstName VARCHAR(50),
+    LastName VARCHAR(50),
+    Age INT,
+    Gender ENUM('Male', 'Female', 'Other'),
+    ContactNumber VARCHAR(15),
+    Email VARCHAR(100),
+    Address TEXT
+);
+
+-- Create a table for medical records
+CREATE TABLE MedicalRecords (
+    RecordID INT AUTO_INCREMENT PRIMARY KEY,
+    PatientID INT,
+    BloodGlucoseLevel DECIMAL(5, 2),
+    BMI DECIMAL(4, 1),
+    BloodPressureHigh INT,
+    BloodPressureLow INT,
+    CholesterolLevel VARCHAR(10),
+    HDLCholesterol DECIMAL(4, 1),
+    LDLCholesterol DECIMAL(4, 1),
+    Triglycerides DECIMAL(4, 1),
+    HemoglobinA1c DECIMAL(4, 2),
+    DiabetesDiagnosis ENUM('Yes', 'No'),
+    DiagnosisDate DATE,
+    FOREIGN KEY (PatientID) REFERENCES Patients(PatientID)
+);
+
+-- Insert sample patient data
+INSERT INTO Patients (FirstName, LastName, Age, Gender, ContactNumber, Email, Address)
+VALUES
+    ('John', 'Doe', 40, 'Male', '123-456-7890', 'john.doe@example.com', '123 Main St'),
+    ('Jane', 'Smith', 35, 'Female', '987-654-3210', 'jane.smith@example.com', '456 Elm St');
+
+-- Insert sample medical records data
+INSERT INTO MedicalRecords (PatientID, BloodGlucoseLevel, BMI, BloodPressureHigh, BloodPressureLow, CholesterolLevel, HDLCholesterol, LDLCholesterol, Triglycerides, HemoglobinA1c, DiabetesDiagnosis, DiagnosisDate)
+VALUES
+    (1, 140.5, 29.2, 120, 80, 'Normal', 50.1, 100.2, 150.3, 5.6, 'No', '2023-01-15'),
+    (2, 165.2, 27.8, 130, 85, 'High', 42.3, 120.5, 180.8, 6.2, 'Yes', '2022-11-05');
